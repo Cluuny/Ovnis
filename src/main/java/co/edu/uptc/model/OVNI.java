@@ -1,24 +1,20 @@
 package co.edu.uptc.model;
 
-import java.awt.Image;
-
 public class OVNI {
     private int x;
     private int y;
     private int speed;
     private boolean crashed;
-    private Image image;
     private int angle;
     private boolean hasDestination = false;
     private int destinationX;
     private int destinationY;
 
-    public OVNI(int x, int y, int speed, Image image) {
+    public OVNI(int x, int y, int speed) {
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.crashed = false;
-        this.image = image;
         this.angle = (int) (Math.random() * 360);
     }
 
@@ -32,6 +28,10 @@ public class OVNI {
         return hasDestination;
     }
 
+    public void clearDestination() {
+        this.hasDestination = false;
+    }
+
     public int getDestinationX() {
         return destinationX;
     }
@@ -40,11 +40,6 @@ public class OVNI {
         return destinationY;
     }
 
-    public void clearDestination() {
-        this.hasDestination = false;
-    }
-
-    // Getters y setters
     public int getX() {
         return x;
     }
@@ -75,21 +70,10 @@ public class OVNI {
 
     public void setCrashed(boolean crashed) {
         this.crashed = crashed;
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
+        clearDestination(); // Limpiar el destino si el OVNI se estrella
     }
 
     public int getAngle() {
         return angle;
-    }
-
-    public void setAngle(int angle) {
-        this.angle = angle;
     }
 }

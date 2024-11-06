@@ -9,30 +9,37 @@ public class SimulationEngine {
     private SimulationParameters parameters;
     private int areaWidth;
     private int areaHeight;
+    private int destinationX;
+    private int destinationY;
+    private int destinationRadius;
     private OVNIManager ovniManager;
     private Thread creationThread;
     private Thread movementThread;
 
+    // Constructor con los parámetros necesarios
     public SimulationEngine(SimulationParameters parameters, int areaWidth, int areaHeight, int destinationX, int destinationY, int destinationRadius) {
         this.parameters = parameters;
         this.areaWidth = areaWidth;
         this.areaHeight = areaHeight;
+        this.destinationX = destinationX;
+        this.destinationY = destinationY;
+        this.destinationRadius = destinationRadius;
         this.ovnis = new CopyOnWriteArrayList<>();
         this.ovniManager = new OVNIManager(ovnis, destinationX, destinationY, destinationRadius);
     }
 
+    // Método para iniciar la simulación con el intervalo de aparición y actualización
     public void startWithInterval(OVNIDisplayPanel displayPanel, InfoPanelView infoPanel) {
-        // Detener cualquier hilo previo antes de iniciar una nueva simulación
         stopSimulation();
 
-        // Hilo para crear OVNIS en intervalos
+        // Hilo para crear los OVNIS a intervalos
         creationThread = new Thread(() -> {
             for (int i = 0; i < parameters.getNumberOfOvnis(); i++) {
                 int x = (int) (Math.random() * areaWidth);
                 int y = (int) (Math.random() * areaHeight);
                 int speed = parameters.getDefaultSpeed();
 
-                OVNI ovni = new OVNI(x, y, speed, null); // null como placeholder de la imagen
+                OVNI ovni = new OVNI(x, y, speed);
                 ovnis.add(ovni);
                 displayPanel.setOvnis(ovnis);
                 displayPanel.repaint();
@@ -47,17 +54,15 @@ public class SimulationEngine {
         });
         creationThread.start();
 
-        // Hilo continuo para mover todos los OVNIS y actualizar contadores
+        // Hilo para actualizar las posiciones de los OVNIS
         movementThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 ovniManager.updatePositions(areaWidth, areaHeight);
                 displayPanel.repaint();
-
-                // Actualizar contadores en el panel de información
                 updateInfoPanel(infoPanel);
 
                 try {
-                    Thread.sleep(50);
+                    Thread.sleep(50); // Controla la velocidad de actualización
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
@@ -67,7 +72,7 @@ public class SimulationEngine {
         movementThread.start();
     }
 
-    // Método para detener los hilos de creación y movimiento
+    // Método para detener la simulación
     public void stopSimulation() {
         if (creationThread != null && creationThread.isAlive()) {
             creationThread.interrupt();
@@ -75,11 +80,10 @@ public class SimulationEngine {
         if (movementThread != null && movementThread.isAlive()) {
             movementThread.interrupt();
         }
-
-        // Reiniciar el estado de la simulación
         ovnis.clear();
     }
 
+    // Método para actualizar la información en el panel de información
     private void updateInfoPanel(InfoPanelView infoPanel) {
         int movingCount = ovniManager.getMovingCount();
         int crashedCount = ovniManager.getCrashedCount();
