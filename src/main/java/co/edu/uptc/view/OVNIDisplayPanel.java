@@ -1,6 +1,8 @@
 package co.edu.uptc.view;
 
 import co.edu.uptc.model.OVNI;
+import lombok.Getter;
+
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -9,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+@Getter
 public class OVNIDisplayPanel extends JPanel {
     private List<OVNI> ovnis;
     private OVNI selectedOvni;
@@ -88,21 +91,5 @@ public class OVNIDisplayPanel extends JPanel {
                 }
             }
         }
-    }
-
-    public OVNI getSelectedOvni() {
-        return selectedOvni;
-    }
-
-    public int getDestinationX() {
-        return destinationX;
-    }
-
-    public int getDestinationY() {
-        return destinationY;
-    }
-
-    public int getDestinationRadius() {
-        return destinationRadius;
     }
 }

@@ -1,5 +1,10 @@
 package co.edu.uptc.model;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class OVNI {
     private int x;
     private int y;
@@ -30,38 +35,6 @@ public class OVNI {
 
     public void clearDestination() {
         this.hasDestination = false;
-    }
-
-    public int getDestinationX() {
-        return destinationX;
-    }
-
-    public int getDestinationY() {
-        return destinationY;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public boolean isCrashed() {

@@ -1,8 +1,12 @@
 package co.edu.uptc.view;
 
 import javax.swing.JFrame;
+
+import lombok.Getter;
+
 import java.awt.BorderLayout;
 
+@Getter
 public class View extends JFrame {
     private OVNIDisplayPanel displayPanel;
     private ControlPanelView controlPanel;
@@ -23,17 +27,5 @@ public class View extends JFrame {
         add(infoPanel, BorderLayout.NORTH);
 
         setLocationRelativeTo(null);
-    }
-
-    public OVNIDisplayPanel getDisplayPanel() {
-        return displayPanel;
-    }
-
-    public ControlPanelView getControlPanel() {
-        return controlPanel;
-    }
-
-    public InfoPanelView getInfoPanel() {
-        return infoPanel;
     }
 }

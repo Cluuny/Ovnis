@@ -1,37 +1,14 @@
 package co.edu.uptc.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class SimulationParameters {
     private int numberOfOvnis;
     private int appearanceInterval;
     private int defaultSpeed;
-
-    public SimulationParameters(int numberOfOvnis, int appearanceInterval, int defaultSpeed) {
-        this.numberOfOvnis = numberOfOvnis;
-        this.appearanceInterval = appearanceInterval;
-        this.defaultSpeed = defaultSpeed;
-    }
-
-    public int getNumberOfOvnis() {
-        return numberOfOvnis;
-    }
-
-    public void setNumberOfOvnis(int numberOfOvnis) {
-        this.numberOfOvnis = numberOfOvnis;
-    }
-
-    public int getAppearanceInterval() {
-        return appearanceInterval;
-    }
-
-    public void setAppearanceInterval(int appearanceInterval) {
-        this.appearanceInterval = appearanceInterval;
-    }
-
-    public int getDefaultSpeed() {
-        return defaultSpeed;
-    }
-
-    public void setDefaultSpeed(int defaultSpeed) {
-        this.defaultSpeed = defaultSpeed;
-    }
 }

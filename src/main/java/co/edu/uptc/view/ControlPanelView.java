@@ -1,8 +1,12 @@
 package co.edu.uptc.view;
 
 import javax.swing.*;
+
+import lombok.Getter;
+
 import java.awt.*;
 
+@Getter
 public class ControlPanelView extends JPanel {
     private JTextField numOvnisField;
     private JTextField speedField;
@@ -45,33 +49,5 @@ public class ControlPanelView extends JPanel {
 
         add(inputPanel, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.CENTER);
-    }
-
-    public JTextField getNumOvnisField() {
-        return numOvnisField;
-    }
-
-    public JTextField getSpeedField() {
-        return speedField;
-    }
-
-    public JTextField getIndividualSpeedField() {
-        return individualSpeedField;
-    }
-
-    public JButton getStartButton() {
-        return startButton;
-    }
-
-    public JButton getSetSpeedButton() {
-        return setSpeedButton;
-    }
-
-    public JTextField getAppearanceIntervalField() {
-        return appearanceIntervalField;
-    }
-
-    public JButton getSelectImageButton() {
-        return selectImageButton;
     }
 }
