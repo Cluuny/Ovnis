@@ -24,7 +24,6 @@ public class SimulationEngine {
     public void startWithInterval(OVNIDisplayPanel displayPanel, InfoPanelView infoPanel) {
         stopSimulation();
 
-        // Hilo para crear los OVNIS
         creationThread = new Thread(() -> {
             for (int i = 0; i < parameters.getNumberOfOvnis(); i++) {
                 int x = (int) (Math.random() * areaWidth);
@@ -46,7 +45,6 @@ public class SimulationEngine {
         });
         creationThread.start();
 
-        // Hilo para actualizar posiciones
         movementThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 ovniManager.updatePositions(areaWidth, areaHeight);

@@ -17,14 +17,13 @@ public class Main {
     private View view;
     private List<OVNI> ovnis;
     private SimulationEngine simulationEngine;
-    private BufferedImage ovniImage; // Imagen del OVNI
+    private BufferedImage ovniImage;
 
     public static void main(String[] args) {
         View view = new View();
         view.setVisible(true);
         Main mainPresenter = new Main(view);
 
-        // Configurar acción del botón de inicio
         view.getControlPanel().getStartButton().addActionListener(e -> {
             try {
                 int numOvnis = Integer.parseInt(view.getControlPanel().getNumOvnisField().getText());
@@ -38,7 +37,6 @@ public class Main {
             }
         });
 
-        // Configurar acción para cambiar la velocidad del OVNI seleccionado
         view.getControlPanel().getSetSpeedButton().addActionListener(e -> {
             OVNI selectedOvni = view.getDisplayPanel().getSelectedOvni();
             if (selectedOvni != null) {
@@ -57,7 +55,6 @@ public class Main {
             }
         });
 
-        // Configurar acción del botón de selección de imagen
         view.getControlPanel().getSelectImageButton().addActionListener(e -> mainPresenter.selectImage());
     }
 
@@ -66,7 +63,6 @@ public class Main {
         this.ovnis = new ArrayList<>();
     }
 
-    // Método para seleccionar la imagen
     public void selectImage() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(view);
@@ -74,8 +70,8 @@ public class Main {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = fileChooser.getSelectedFile();
             try {
-                ovniImage = ImageIO.read(selectedFile); // Cargar la imagen seleccionada
-                view.getDisplayPanel().setOvniImage(ovniImage); // Pasar la imagen al panel de visualización
+                ovniImage = ImageIO.read(selectedFile);
+                view.getDisplayPanel().setOvniImage(ovniImage);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(view, "No se pudo cargar la imagen.", "Error", JOptionPane.ERROR_MESSAGE);
             }

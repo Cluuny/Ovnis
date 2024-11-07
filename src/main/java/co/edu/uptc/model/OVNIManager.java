@@ -1,6 +1,5 @@
 package co.edu.uptc.model;
 
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OVNIManager {
@@ -19,13 +18,11 @@ public class OVNIManager {
     public void updatePositions(int areaWidth, int areaHeight) {
         for (OVNI ovni : ovnis) {
             if (!ovni.isCrashed()) {
-                // Verificar si el OVNI ha llegado al área de destino
                 if (isInDestinationArea(ovni)) {
-                    ovni.setCrashed(true);  // Marcar como "destruido" si llega al destino
+                    ovni.setCrashed(true);
                     continue;
                 }
 
-                // Movimiento hacia el destino si tiene uno
                 if (ovni.hasDestination()) {
                     int deltaX = ovni.getDestinationX() - ovni.getX();
                     int deltaY = ovni.getDestinationY() - ovni.getY();
@@ -42,7 +39,6 @@ public class OVNIManager {
                         ovni.setY(ovni.getY() + moveY);
                     }
                 } else {
-                    // Movimiento normal
                     int newX = ovni.getX() + (int) (ovni.getSpeed() * Math.cos(Math.toRadians(ovni.getAngle())));
                     int newY = ovni.getY() + (int) (ovni.getSpeed() * Math.sin(Math.toRadians(ovni.getAngle())));
 
@@ -56,7 +52,6 @@ public class OVNIManager {
             }
         }
 
-        // Verificar colisiones entre OVNIS después de moverlos
         checkCollisions();
     }
 
@@ -75,7 +70,7 @@ public class OVNIManager {
                     int deltaY = ovni1.getY() - ovni2.getY();
                     double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-                    if (distance < 20) { // Suponiendo que el radio del OVNI es 10
+                    if (distance < 20) {
                         ovni1.setCrashed(true);
                         ovni2.setCrashed(true);
                     }

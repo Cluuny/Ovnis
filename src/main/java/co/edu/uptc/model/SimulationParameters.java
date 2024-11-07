@@ -11,7 +11,6 @@ public class SimulationParameters {
         this.defaultSpeed = defaultSpeed;
     }
 
-    // Getters y setters
     public int getNumberOfOvnis() {
         return numberOfOvnis;
     }

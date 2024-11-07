@@ -70,7 +70,7 @@ public class OVNI {
 
     public void setCrashed(boolean crashed) {
         this.crashed = crashed;
-        clearDestination(); // Limpiar el destino si el OVNI se estrella
+        clearDestination();
     }
 
     public int getAngle() {

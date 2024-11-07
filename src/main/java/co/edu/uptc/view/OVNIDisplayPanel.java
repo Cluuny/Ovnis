@@ -15,7 +15,7 @@ public class OVNIDisplayPanel extends JPanel {
     private int destinationX = 600;
     private int destinationY = 300;
     private int destinationRadius = 50;
-    private Image ovniImage; // Imagen de OVNI seleccionada por el usuario
+    private Image ovniImage;
 
     public OVNIDisplayPanel() {
         setBackground(Color.LIGHT_GRAY);
@@ -25,7 +25,6 @@ public class OVNIDisplayPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 boolean ovniClicked = false;
 
-                // Intentar seleccionar un OVNI al hacer clic
                 for (OVNI ovni : ovnis) {
                     if (!ovni.isCrashed() && isMouseOverOvni(e.getX(), e.getY(), ovni)) {
                         selectedOvni = ovni;
@@ -35,12 +34,10 @@ public class OVNIDisplayPanel extends JPanel {
                 }
 
                 if (ovniClicked) {
-                    // Si se hizo clic en un OVNI, seleccionarlo y no asignar destino
                     repaint();
                 } else if (selectedOvni != null) {
-                    // Si se hizo clic fuera de un OVNI y hay uno seleccionado, asignar el destino
                     selectedOvni.setDestination(e.getX(), e.getY());
-                    selectedOvni = null; // Deseleccionar después de asignar el destino
+                    selectedOvni = null;
                     repaint();
                 }
             }
@@ -66,21 +63,17 @@ public class OVNIDisplayPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Dibujar el área de destino
-        g.setColor(Color.GREEN);
+        g.setColor(Color.BLACK);
         g.drawOval(destinationX - destinationRadius, destinationY - destinationRadius, destinationRadius * 2, destinationRadius * 2);
 
-        // Dibujar los OVNIS y sus trayectorias
         if (ovnis != null) {
             for (OVNI ovni : ovnis) {
                 if (!ovni.isCrashed()) {
                     if (ovni == selectedOvni) {
-                        // Dibujar un contorno alrededor del OVNI seleccionado
-                        g.setColor(Color.YELLOW); // Color del contorno para el OVNI seleccionado
-                        g.drawOval(ovni.getX() - 2, ovni.getY() - 2, 24, 24); // Contorno más grande que el OVNI
+                        g.setColor(Color.BLACK);
+                        g.drawOval(ovni.getX() - 2, ovni.getY() - 2, 24, 24);
                     }
 
-                    // Dibujar la imagen del OVNI
                     if (ovniImage != null) {
                         g.drawImage(ovniImage, ovni.getX(), ovni.getY(), 20, 20, this);
                     } else {
@@ -88,9 +81,8 @@ public class OVNIDisplayPanel extends JPanel {
                         g.fillOval(ovni.getX(), ovni.getY(), 20, 20);
                     }
 
-                    // Dibujar la línea de trayectoria
                     if (ovni.hasDestination()) {
-                        g.setColor(Color.YELLOW);
+                        g.setColor(Color.BLACK);
                         g.drawLine(ovni.getX() + 10, ovni.getY() + 10, ovni.getDestinationX(), ovni.getDestinationY());
                     }
                 }
