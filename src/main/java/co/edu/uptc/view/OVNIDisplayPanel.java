@@ -34,11 +34,15 @@ public class OVNIDisplayPanel extends JPanel {
                     }
                 }
 
-                if (!ovniClicked && selectedOvni != null) {
+                if (ovniClicked) {
+                    // Si se hizo clic en un OVNI, seleccionarlo y no asignar destino
+                    repaint();
+                } else if (selectedOvni != null) {
+                    // Si se hizo clic fuera de un OVNI y hay uno seleccionado, asignar el destino
                     selectedOvni.setDestination(e.getX(), e.getY());
-                    selectedOvni = null;
+                    selectedOvni = null; // Deseleccionar después de asignar el destino
+                    repaint();
                 }
-                repaint();
             }
         });
     }
@@ -70,13 +74,21 @@ public class OVNIDisplayPanel extends JPanel {
         if (ovnis != null) {
             for (OVNI ovni : ovnis) {
                 if (!ovni.isCrashed()) {
+                    if (ovni == selectedOvni) {
+                        // Dibujar un contorno alrededor del OVNI seleccionado
+                        g.setColor(Color.YELLOW); // Color del contorno para el OVNI seleccionado
+                        g.drawOval(ovni.getX() - 2, ovni.getY() - 2, 24, 24); // Contorno más grande que el OVNI
+                    }
+
+                    // Dibujar la imagen del OVNI
                     if (ovniImage != null) {
                         g.drawImage(ovniImage, ovni.getX(), ovni.getY(), 20, 20, this);
                     } else {
-                        g.setColor(ovni == selectedOvni ? Color.BLUE : Color.RED);
+                        g.setColor(Color.RED);
                         g.fillOval(ovni.getX(), ovni.getY(), 20, 20);
                     }
 
+                    // Dibujar la línea de trayectoria
                     if (ovni.hasDestination()) {
                         g.setColor(Color.YELLOW);
                         g.drawLine(ovni.getX() + 10, ovni.getY() + 10, ovni.getDestinationX(), ovni.getDestinationY());
