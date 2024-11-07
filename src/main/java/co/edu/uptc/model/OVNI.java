@@ -1,5 +1,9 @@
 package co.edu.uptc.model;
 
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +18,7 @@ public class OVNI {
     private boolean hasDestination = false;
     private int destinationX;
     private int destinationY;
+    private List<Point> customPath = new ArrayList<>();
 
     public OVNI(int x, int y, int speed) {
         this.x = x;
@@ -44,9 +49,22 @@ public class OVNI {
     public void setCrashed(boolean crashed) {
         this.crashed = crashed;
         clearDestination();
+        customPath.clear();
     }
 
-    public int getAngle() {
-        return angle;
+    public void addPointToPath(Point point) {
+        customPath.add(point);
+    }
+
+    public boolean hasCustomPath() {
+        return !customPath.isEmpty();
+    }
+
+    public Point getNextPathPoint() {
+        return customPath.isEmpty() ? null : customPath.remove(0);
+    }
+
+    public void clearCustomPath() {
+        customPath.clear();
     }
 }

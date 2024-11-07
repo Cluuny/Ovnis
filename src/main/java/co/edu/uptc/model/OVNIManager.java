@@ -1,6 +1,7 @@
 package co.edu.uptc.model;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.awt.Point;
 
 public class OVNIManager {
     private CopyOnWriteArrayList<OVNI> ovnis;
@@ -23,22 +24,18 @@ public class OVNIManager {
                     continue;
                 }
 
-                if (ovni.hasDestination()) {
-                    int deltaX = ovni.getDestinationX() - ovni.getX();
-                    int deltaY = ovni.getDestinationY() - ovni.getY();
-                    double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                if (ovni.hasCustomPath()) {
+                    Point nextPoint = ovni.getCustomPath().get(0);
+                    moveOvniTowards(ovni, nextPoint.x, nextPoint.y);
 
-                    if (distance <= ovni.getSpeed()) {
-                        ovni.setX(ovni.getDestinationX());
-                        ovni.setY(ovni.getDestinationY());
-                        ovni.clearDestination();
-                    } else {
-                        int moveX = (int) (ovni.getSpeed() * deltaX / distance);
-                        int moveY = (int) (ovni.getSpeed() * deltaY / distance);
-                        ovni.setX(ovni.getX() + moveX);
-                        ovni.setY(ovni.getY() + moveY);
+                    if (ovni.getX() == nextPoint.x && ovni.getY() == nextPoint.y) {
+                        ovni.getCustomPath().remove(0);
                     }
-                } else {
+                } 
+                else if (ovni.hasDestination()) {
+                    moveOvniTowards(ovni, ovni.getDestinationX(), ovni.getDestinationY());
+                } 
+                else {
                     int newX = ovni.getX() + (int) (ovni.getSpeed() * Math.cos(Math.toRadians(ovni.getAngle())));
                     int newY = ovni.getY() + (int) (ovni.getSpeed() * Math.sin(Math.toRadians(ovni.getAngle())));
 
@@ -53,6 +50,22 @@ public class OVNIManager {
         }
 
         checkCollisions();
+    }
+
+    private void moveOvniTowards(OVNI ovni, int targetX, int targetY) {
+        int deltaX = targetX - ovni.getX();
+        int deltaY = targetY - ovni.getY();
+        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        if (distance <= ovni.getSpeed()) {
+            ovni.setX(targetX);
+            ovni.setY(targetY);
+        } else {
+            int moveX = (int) (ovni.getSpeed() * deltaX / distance);
+            int moveY = (int) (ovni.getSpeed() * deltaY / distance);
+            ovni.setX(ovni.getX() + moveX);
+            ovni.setY(ovni.getY() + moveY);
+        }
     }
 
     private boolean isInDestinationArea(OVNI ovni) {
