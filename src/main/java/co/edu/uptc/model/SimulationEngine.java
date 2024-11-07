@@ -9,30 +9,22 @@ public class SimulationEngine {
     private SimulationParameters parameters;
     private int areaWidth;
     private int areaHeight;
-    private int destinationX;
-    private int destinationY;
-    private int destinationRadius;
     private OVNIManager ovniManager;
     private Thread creationThread;
     private Thread movementThread;
 
-    // Constructor con los parámetros necesarios
     public SimulationEngine(SimulationParameters parameters, int areaWidth, int areaHeight, int destinationX, int destinationY, int destinationRadius) {
         this.parameters = parameters;
         this.areaWidth = areaWidth;
         this.areaHeight = areaHeight;
-        this.destinationX = destinationX;
-        this.destinationY = destinationY;
-        this.destinationRadius = destinationRadius;
         this.ovnis = new CopyOnWriteArrayList<>();
         this.ovniManager = new OVNIManager(ovnis, destinationX, destinationY, destinationRadius);
     }
 
-    // Método para iniciar la simulación con el intervalo de aparición y actualización
     public void startWithInterval(OVNIDisplayPanel displayPanel, InfoPanelView infoPanel) {
         stopSimulation();
 
-        // Hilo para crear los OVNIS a intervalos
+        // Hilo para crear los OVNIS
         creationThread = new Thread(() -> {
             for (int i = 0; i < parameters.getNumberOfOvnis(); i++) {
                 int x = (int) (Math.random() * areaWidth);
@@ -54,7 +46,7 @@ public class SimulationEngine {
         });
         creationThread.start();
 
-        // Hilo para actualizar las posiciones de los OVNIS
+        // Hilo para actualizar posiciones
         movementThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 ovniManager.updatePositions(areaWidth, areaHeight);
@@ -62,7 +54,7 @@ public class SimulationEngine {
                 updateInfoPanel(infoPanel);
 
                 try {
-                    Thread.sleep(50); // Controla la velocidad de actualización
+                    Thread.sleep(50);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                     break;
@@ -72,7 +64,6 @@ public class SimulationEngine {
         movementThread.start();
     }
 
-    // Método para detener la simulación
     public void stopSimulation() {
         if (creationThread != null && creationThread.isAlive()) {
             creationThread.interrupt();
@@ -83,7 +74,6 @@ public class SimulationEngine {
         ovnis.clear();
     }
 
-    // Método para actualizar la información en el panel de información
     private void updateInfoPanel(InfoPanelView infoPanel) {
         int movingCount = ovniManager.getMovingCount();
         int crashedCount = ovniManager.getCrashedCount();

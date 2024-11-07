@@ -9,13 +9,14 @@ import java.awt.GridLayout;
 public class ControlPanelView extends JPanel {
     private JTextField numOvnisField;
     private JTextField speedField;
-    private JTextField individualSpeedField; // Nuevo campo de texto para velocidad individual
+    private JTextField individualSpeedField;
     private JButton startButton;
-    private JButton setSpeedButton; // Nuevo botón para asignar la velocidad individual
+    private JButton setSpeedButton;
     private JTextField appearanceIntervalField;
+    private JButton selectImageButton; // Nuevo botón para seleccionar imagen
 
     public ControlPanelView() {
-        setLayout(new GridLayout(2, 3));
+        setLayout(new GridLayout(3, 3));
 
         JLabel numOvnisLabel = new JLabel("Número de OVNIS:");
         numOvnisField = new JTextField(5);
@@ -27,7 +28,8 @@ public class ControlPanelView extends JPanel {
         setSpeedButton = new JButton("Asignar Velocidad");
         JLabel appearanceIntervalLabel = new JLabel("Intervalo de aparición (ms):");
         appearanceIntervalField = new JTextField(5);
-        
+        selectImageButton = new JButton("Seleccionar Imagen de OVNI"); // Inicialización del nuevo botón
+
         add(appearanceIntervalLabel);
         add(appearanceIntervalField);
         add(numOvnisLabel);
@@ -35,10 +37,10 @@ public class ControlPanelView extends JPanel {
         add(speedLabel);
         add(speedField);
         add(startButton);
-
         add(individualSpeedLabel);
         add(individualSpeedField);
         add(setSpeedButton);
+        add(selectImageButton); // Agregar el botón al panel
     }
 
     public JTextField getNumOvnisField() {
@@ -63,5 +65,9 @@ public class ControlPanelView extends JPanel {
     
     public JTextField getAppearanceIntervalField() {
         return appearanceIntervalField;
+    }
+
+    public JButton getSelectImageButton() {
+        return selectImageButton; // Método para obtener el botón de selección de imagen
     }
 }

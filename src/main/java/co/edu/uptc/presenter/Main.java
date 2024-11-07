@@ -5,7 +5,11 @@ import co.edu.uptc.model.SimulationParameters;
 import co.edu.uptc.model.SimulationEngine;
 import co.edu.uptc.view.View;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +17,7 @@ public class Main {
     private View view;
     private List<OVNI> ovnis;
     private SimulationEngine simulationEngine;
+    private BufferedImage ovniImage; // Imagen del OVNI
 
     public static void main(String[] args) {
         View view = new View();
@@ -51,6 +56,9 @@ public class Main {
                         JOptionPane.WARNING_MESSAGE);
             }
         });
+
+        // Configurar acción del botón de selección de imagen
+        view.getControlPanel().getSelectImageButton().addActionListener(e -> mainPresenter.selectImage());
     }
 
     public Main(View view) {
@@ -58,16 +66,29 @@ public class Main {
         this.ovnis = new ArrayList<>();
     }
 
+    // Método para seleccionar la imagen
+    public void selectImage() {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(view);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            try {
+                ovniImage = ImageIO.read(selectedFile); // Cargar la imagen seleccionada
+                view.getDisplayPanel().setOvniImage(ovniImage); // Pasar la imagen al panel de visualización
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(view, "No se pudo cargar la imagen.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
     public void startSimulation(int numOvnis, int speed, int appearanceInterval) {
-        // Detener la simulación si ya está en ejecución
         if (simulationEngine != null) {
             simulationEngine.stopSimulation();
         }
 
-        // Configurar nuevos parámetros para la simulación
         SimulationParameters parameters = new SimulationParameters(numOvnis, appearanceInterval, speed);
         
-        // Inicializar SimulationEngine con los nuevos parámetros y dimensiones de la vista
         simulationEngine = new SimulationEngine(
                 parameters,
                 view.getDisplayPanel().getWidth(),
@@ -77,7 +98,6 @@ public class Main {
                 view.getDisplayPanel().getDestinationRadius()
         );
 
-        // Iniciar la simulación con el nuevo estado
         simulationEngine.startWithInterval(view.getDisplayPanel(), view.getInfoPanel());
     }
 }

@@ -3,6 +3,7 @@ package co.edu.uptc.view;
 import co.edu.uptc.model.OVNI;
 import javax.swing.JPanel;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,9 +12,10 @@ import java.util.List;
 public class OVNIDisplayPanel extends JPanel {
     private List<OVNI> ovnis;
     private OVNI selectedOvni;
-    private int destinationX = 600; // Coordenadas fijas para el punto de destino inicial
+    private int destinationX = 600;
     private int destinationY = 300;
-    private int destinationRadius = 50; // Tamaño del área de destino
+    private int destinationRadius = 50;
+    private Image ovniImage; // Imagen de OVNI seleccionada por el usuario
 
     public OVNIDisplayPanel() {
         setBackground(Color.LIGHT_GRAY);
@@ -34,7 +36,7 @@ public class OVNIDisplayPanel extends JPanel {
 
                 if (!ovniClicked && selectedOvni != null) {
                     selectedOvni.setDestination(e.getX(), e.getY());
-                    selectedOvni = null; // Deseleccionar después de establecer el destino
+                    selectedOvni = null;
                 }
                 repaint();
             }
@@ -51,6 +53,11 @@ public class OVNIDisplayPanel extends JPanel {
         repaint();
     }
 
+    public void setOvniImage(Image image) {
+        this.ovniImage = image;
+        repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -63,8 +70,12 @@ public class OVNIDisplayPanel extends JPanel {
         if (ovnis != null) {
             for (OVNI ovni : ovnis) {
                 if (!ovni.isCrashed()) {
-                    g.setColor(ovni == selectedOvni ? Color.BLUE : Color.RED);
-                    g.fillOval(ovni.getX(), ovni.getY(), 20, 20);
+                    if (ovniImage != null) {
+                        g.drawImage(ovniImage, ovni.getX(), ovni.getY(), 20, 20, this);
+                    } else {
+                        g.setColor(ovni == selectedOvni ? Color.BLUE : Color.RED);
+                        g.fillOval(ovni.getX(), ovni.getY(), 20, 20);
+                    }
 
                     if (ovni.hasDestination()) {
                         g.setColor(Color.YELLOW);
@@ -75,12 +86,10 @@ public class OVNIDisplayPanel extends JPanel {
         }
     }
 
-    // Método para obtener el OVNI seleccionado
     public OVNI getSelectedOvni() {
         return selectedOvni;
     }
 
-    // Métodos para obtener las coordenadas y el radio del área de destino
     public int getDestinationX() {
         return destinationX;
     }
