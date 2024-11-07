@@ -21,6 +21,8 @@ public class View extends JFrame {
         add(displayPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.SOUTH);
         add(infoPanel, BorderLayout.NORTH);
+
+        setLocationRelativeTo(null);
     }
 
     public OVNIDisplayPanel getDisplayPanel() {

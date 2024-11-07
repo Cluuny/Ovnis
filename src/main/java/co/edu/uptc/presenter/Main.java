@@ -10,12 +10,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     private View view;
-    private List<OVNI> ovnis;
     private SimulationEngine simulationEngine;
     private BufferedImage ovniImage;
 
@@ -60,7 +57,6 @@ public class Main {
 
     public Main(View view) {
         this.view = view;
-        this.ovnis = new ArrayList<>();
     }
 
     public void selectImage() {

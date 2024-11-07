@@ -22,7 +22,7 @@ public class SimulationEngine {
     }
 
     public void startWithInterval(OVNIDisplayPanel displayPanel, InfoPanelView infoPanel) {
-        stopSimulation();
+        this.stopSimulation();
 
         creationThread = new Thread(() -> {
             for (int i = 0; i < parameters.getNumberOfOvnis(); i++) {
