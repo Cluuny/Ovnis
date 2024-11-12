@@ -1,0 +1,10 @@
+co\edu\uptc\view\View.class
+co\edu\uptc\view\InfoPanelView.class
+co\edu\uptc\presenter\Main.class
+co\edu\uptc\view\OVNIDisplayPanel$1.class
+co\edu\uptc\model\OVNI.class
+co\edu\uptc\model\OVNIManager.class
+co\edu\uptc\model\SimulationEngine.class
+co\edu\uptc\view\ControlPanelView.class
+co\edu\uptc\model\SimulationParameters.class
+co\edu\uptc\view\OVNIDisplayPanel.class
